@@ -23,33 +23,51 @@
 	
 	
 	<!-- ----------------------1. 회원 관련 서비스 -------------------------- -->
-	<div class="login-area">     
-		<!-- 1_1. 로그인 관련 폼 만들기 -->
-		<form action="${ contextPath }/login.me" method="post">
+	<div class="login-area">
+		<c:if test="${ empty sessionScope.loginUser }">
+			<!-- 1_1. 로그인 관련 폼 만들기 -->
+			<form action="${ contextPath }/login.me" method="post">
+				<table class="loginTable">
+					<tr>
+						<td>아이디 : </td>
+						<td>
+					<input type="text" name="userId">
+						</td>
+						<td rowspan="2">
+							<button id="login-btn" class="btn btn-login">로그인</button>
+						</td>
+					</tr>
+					<tr> 
+						<td>비밀번호 : </td>
+						<td>
+							<input type="password" name="userPwd">
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3" id="logoutBtns">
+							<a href="${ contextPath }/views/member/memberInsertForm.jsp">회원가입</a>
+							<a href="${ contextPath }/views/member/findMemberForm.jsp">아이디/비밀번호 찾기</a>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</c:if>
+		
+		<c:if test="${ !empty sessionScope.loginUser }">
 			<table class="loginTable">
 				<tr>
-					<td>아이디 : </td>
-					<td>
-				<input type="text" name="userId">
-					</td>
-					<td rowspan="2">
-						<button id="login-btn" class="btn btn-login">로그인</button>
-					</td>
-				</tr>
-				<tr> 
-					<td>비밀번호 : </td>
-					<td>
-						<input type="password" name="userPwd">
-					</td>
+					<td colspan="2"><h3>${ loginUser.userName }님 환영합니다.</h3></td>
 				</tr>
 				<tr>
-					<td colspan="3" id="logoutBtns">
-						<a href="${ contextPath }/views/member/memberInsertForm.jsp">회원가입</a>
-						<a href="${ contextPath }/views/member/findMemberForm.jsp">아이디/비밀번호 찾기</a>
+					<td>
+						<button onclick="location.href='${ contextPath }/info.me'">내 정보 보기</button>
+					</td>
+					<td>
+						<button onclick="location.href='${ contextPath }/logout.me'">로그아웃</button>
 					</td>
 				</tr>
 			</table>
-		</form>
+		</c:if>     
 	</div>
 	
 	<script>
