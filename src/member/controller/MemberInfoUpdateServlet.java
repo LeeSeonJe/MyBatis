@@ -1,31 +1,30 @@
 package member.controller;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.util.GregorianCalendar;
 
-import javax.security.auth.message.callback.PrivateKeyCallback.Request;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import member.model.exception.MemberException;
 import member.model.service.MemberService;
 import member.model.vo.Member;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class MemberInfoUpdateServlet
  */
-@WebServlet("/login.me")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/mupdate.me")
+public class MemberInfoUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginServlet() {
+    public MemberInfoUpdateServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,23 +34,27 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String userId = request.getParameter("userId");
-		String userPwd = request.getParameter("userPwd");
+		String email = request.getParameter("email");
+		String phone = request.getParameter("phone");
+		String address = request.getParameter("address");
+		String gender = request.getParameter("gender");
 		
-		Member m = new Member();
-		m.setUserId(userId);
-		m.setUserPwd(userPwd);
+		int year = Integer.parseInt(request.getParameter("year"));
+		int month = Integer.parseInt(request.getParameter("month"));
+		int date = Integer.parseInt(request.getParameter("date"));
 		
+		Date birthDay = new Date(new GregorianCalendar(year, month - 1, date).getTimeInMillis());
+		
+		Member m = new Member(userId, email, birthDay, gender, phone, address);
+	
 		try {
-			Member member = new MemberService().selectMember(m);
-			HttpSession session = request.getSession();
-			session.setAttribute("loginUser", member);
-			session.setMaxInactiveInterval(600);
-			request.getRequestDispatcher("/").forward(request, response);
+			new MemberService().updateInfoMember(m);
+			request.getRequestDispatcher("info.me").forward(request, response);
 		} catch (MemberException e) {
-			// TODO Auto-generated catch block
-			RequestDispatcher error = request.getRequestDispatcher("/views/common/errorPage.jsp");
-			error.forward(request, response);
+			request.setAttribute("message", e.getMessage());
+			request.getRequestDispatcher("/views/common/errorPage.jsp").forward(request, response);
 		}
+		
 	}
 
 	/**
@@ -61,4 +64,5 @@ public class LoginServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
+
 }

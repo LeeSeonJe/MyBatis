@@ -2,7 +2,6 @@ package member.controller;
 
 import java.io.IOException;
 
-import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,16 +15,16 @@ import member.model.service.MemberService;
 import member.model.vo.Member;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class MemberInfoServlet
  */
-@WebServlet("/login.me")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/info.me")
+public class MemberInfoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginServlet() {
+    public MemberInfoServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,21 +33,13 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String userId = request.getParameter("userId");
-		String userPwd = request.getParameter("userPwd");
-		
-		Member m = new Member();
-		m.setUserId(userId);
-		m.setUserPwd(userPwd);
-		
+		HttpSession session = request.getSession();
+		Member loginUser = (Member) session.getAttribute("loginUser");
 		try {
-			Member member = new MemberService().selectMember(m);
-			HttpSession session = request.getSession();
-			session.setAttribute("loginUser", member);
-			session.setMaxInactiveInterval(600);
-			request.getRequestDispatcher("/").forward(request, response);
+			Member m = new MemberService().getMyInfo(loginUser.getUserId());
+			request.setAttribute("m", m);
+			request.getRequestDispatcher("/views/member/memberInfo.jsp").forward(request, response);
 		} catch (MemberException e) {
-			// TODO Auto-generated catch block
 			RequestDispatcher error = request.getRequestDispatcher("/views/common/errorPage.jsp");
 			error.forward(request, response);
 		}
@@ -61,4 +52,5 @@ public class LoginServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
+
 }

@@ -15,7 +15,38 @@
 			from member 
 			where user_id = #{userId}
 				  and user_pwd = #{userPwd}
+				  and M_STATUS = 'Y'
 		</select>
+		
+		
+		<insert id="insertMember" parameterType="Member">
+			insert into member
+			values(#{userId}, #{userPwd}, #{userName}, #{nickName}, #{email}, #{birthDay}, #{gender}, #{phone}, #{address}, SYSDATE, SYSDATE, DEFAULT)
+		</insert>
+		
+		<select id="getMyInfo" parameterType="string" resultMap="memberResultSet">
+			select * 
+			from member
+			where user_id = #{userId} and M_STATUS = 'Y'
+		</select>
+		
+		<update id="updateInfoMember" parameterType="Member">
+			update member 
+			set EMAIL = #{email}, BIRTHDAY = #{birthDay}, GENDER = #{gender}, PHONE = #{phone}, ADDRESS = #{address}, UPDATE_DATE = SYSDATE 
+			where USER_ID = #{userId}
+		</update>
+		
+		<update id="updatePwdMember" parameterType="hashmap">
+			update member 
+			set USER_PWD = #{newPwd} 
+			where USER_ID = #{userId} and USER_PWD = #{userPwd}
+		</update>
+	
+		<update id="deleteMember" parameterType="string">
+			update member
+			set M_STATUS = 'N'
+			where USER_ID = #{userId}
+		</update>
 		
 		<resultMap type="Member" id="memberResultSet">
 			<!-- DB 기본 키 -->
@@ -33,9 +64,4 @@
 			<result property="updateDate" column="UPDATE_DATE"/> 
 			<result property="mStatus" column="M_STATUS"/> 
 		</resultMap>
-		
-		<insert id="insertMember" parameterType="Member">
-			insert into member
-			values(#{userId}, #{userPwd}, #{userName}, #{nickName}, #{email}, #{birthDay}, #{gender}, #{phone}, #{address}, SYSDATE, SYSDATE, DEFAULT)
-		</insert>
 </mapper>
