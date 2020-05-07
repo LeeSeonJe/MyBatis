@@ -70,6 +70,11 @@
 		</c:if>     
 	</div>
 	
+	<div class="nav-area" align="center">
+		<div class="menu" onclick="home();">HOME</div>
+		<div class="menu" onclick="board();">게시판</div>		
+	</div>
+	
 	<script>
 		function home(){
 			location.href="index.jsp";
