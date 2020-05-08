@@ -49,6 +49,7 @@ public class LoginServlet extends HttpServlet {
 			request.getRequestDispatcher("/").forward(request, response);
 		} catch (MemberException e) {
 			// TODO Auto-generated catch block
+			request.setAttribute("message", e.getMessage());
 			RequestDispatcher error = request.getRequestDispatcher("/views/common/errorPage.jsp");
 			error.forward(request, response);
 		}

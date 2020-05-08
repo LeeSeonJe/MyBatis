@@ -8,12 +8,54 @@
 <script src="${ contextPath }/js/jquery-3.4.1.min.js"></script>
 <title>Insert title here</title>
 <style>
-   #welcome{background: black; text-shadow: -1px -1px 0 red, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;}
-   .login-area {height:100px;}
-   .btn-login {height:50px;}
-   .loginTable{text-align: right; float: right;}
-   #logoutBtns>a{text-decoration: none; color: black;}
-   #logoutBtns>a:hover{text-decoration: underline; font-weight: bold;}
+#welcome {
+	background: black;
+	text-shadow: -1px -1px 0 red, 1px -1px 0 white, -1px 1px 0 white, 1px
+		1px 0 white;
+}
+
+.login-area {
+	height: 100px;
+}
+
+.btn-login {
+	height: 50px;
+}
+
+.loginTable {
+	text-align: right;
+	float: right;
+}
+
+#logoutBtns>a {
+	text-decoration: none;
+	color: black;
+}
+
+#logoutBtns>a:hover {
+	text-decoration: underline;
+	font-weight: bold;
+}
+
+.nav-area {
+	background: black;
+	height: 50px;
+}
+
+.menu {
+	display: table-cell;
+	width: 250px;
+	height: 50px;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 20px;
+	background: black;
+	color: white;
+}
+
+.menu:hover {
+	background: orangered; cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -78,6 +120,10 @@
 	<script>
 		function home(){
 			location.href="index.jsp";
+		}
+		
+		function board(){
+			location.href="${ contextPath }/selectList.bo";
 		}
 	</script>
 </body>
