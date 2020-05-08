@@ -41,11 +41,12 @@ public class BoardSearchServlet extends HttpServlet {
 		String value = request.getParameter("searchValue");
 		
 		SearchCondition sc = new SearchCondition();
+		
 		if(condition.equals("writer")) {
 			sc.setWriter(value);
-		} else if(condition.equals("title")) {
+		}else if(condition.equals("title")) {
 			sc.setTitle(value);
-		} else if (condition.equals("content")) {
+		}else if(condition.equals("content")) {
 			sc.setContent(value);
 		}
 		
@@ -53,23 +54,25 @@ public class BoardSearchServlet extends HttpServlet {
 		if(request.getParameter("currentPage") != null) {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		}
+		
 		try {
 			int listCount = service.getSearchResultListCount(sc);
+			
 			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 			
-			ArrayList<Board> list = service.selectSearchResultList(sc, pi);
+			ArrayList<Board> list = service.selectSearchResultList(sc,pi);
 			
 			request.setAttribute("list", list);
 			request.setAttribute("pi", pi);
-//			request.setAttribute("searchCondition", condition);
-//			request.setAttribute("searchValue", value);
+			request.setAttribute("searchCondition", condition);
+			request.setAttribute("searchValue", value);
 			
 			request.getRequestDispatcher("/views/board/boardList.jsp").forward(request, response);
+			
 		} catch (BoardException e) {
 			request.setAttribute("message", e.getMessage());
 			request.getRequestDispatcher("/views/common/errorPage.jsp").forward(request, response);
 		}
-		
 	}
 
 	/**

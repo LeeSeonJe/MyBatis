@@ -57,6 +57,10 @@
 					<c:url var="blistBack" value="${ loc }">
 						<!-- ${loc} : 현재 ContextPath/url -->
 						<c:param name="currentPage" value="${ pi.currentPage - 1 }"></c:param>
+						<c:if test="${ searchValue ne null }">
+							<c:param name="searchCondition" value="${ searchCondition }"></c:param>
+							<c:param name="searchValue" value="${ searchValue }"></c:param>
+						</c:if>
 					</c:url>
 					<a href="${ blistBack }">[이전]</a>
 				</c:if>
@@ -69,6 +73,10 @@
 					<c:if test="${ p ne pi.currentPage }">
 						<c:url var="blistCheck" value="${ loc }">
 							<c:param name="currentPage" value="${ p }"></c:param>
+							<c:if test="${ searchValue ne null }">
+								<c:param name="searchCondition" value="${ searchCondition }"></c:param>
+								<c:param name="searchValue" value="${ searchValue }"></c:param>
+							</c:if>
 						</c:url>
 						<a href="${ blistCheck }">${ p }</a>
 					</c:if>
@@ -81,6 +89,10 @@
 				<c:if test="${ pi.currentPage < pi.maxPage }">
 					<c:url var="blistEnd" value="${ loc }">
 						<c:param name="currentPage" value="${ pi.currentPage + 1 }"></c:param>
+						<c:if test="${ searchValue ne null }">
+							<c:param name="searchCondition" value="${ searchCondition }"></c:param>
+							<c:param name="searchValue" value="${ searchValue }"></c:param>
+						</c:if>
 					</c:url>
 					<a href="${ blistEnd }">[다음]</a>
 				</c:if>
