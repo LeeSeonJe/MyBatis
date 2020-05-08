@@ -67,7 +67,7 @@ public class BoardDAO {
 			throw new BoardException("검색 결과 카운트 조회에 실패하였습니다.");
 		}
 
-		return 0;
+		return listCount;
 	}
 
 	public ArrayList<Board> selectSearchResultList(SqlSession session, SearchCondition sc, PageInfo pi) throws BoardException {
